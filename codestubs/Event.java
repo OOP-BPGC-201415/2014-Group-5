@@ -3,8 +3,8 @@ class Event{
 			description;
 	Volunteer head;
 	
-	
-	
+	public Event(){}
+	public Event(String name, String description, Volunteer head){}
 	
 	public String getName(){}
 	public String getDescription(){}

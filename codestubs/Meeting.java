@@ -4,6 +4,8 @@ class Meeting{
 			Purpose;
 	Volunteer[] Attendees;
 	
+	public Meeting(){}
+	public Meeting(int time, String location, String purpose){}
 	
 	
 	public void setTime(int t){}

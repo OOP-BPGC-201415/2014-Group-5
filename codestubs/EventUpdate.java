@@ -1,0 +1,16 @@
+class EventUpdate{
+	String message;
+	Event event;
+	int timeStamp;
+	
+	public EventUpdate(){}
+	public EventUpdate(Event event, String message){}	//timeStamp defaults to currentTime
+	public EventUpdate(Event event, String message, int timeStamp){}
+	public void setMessage(String m){}
+	public void setEvent(Event e){}
+	public void setTimeStamp(int ts){}
+	
+	public String getMessage(){}
+	public Event getEvent(){}
+	public int getTimeStamp(){}
+}

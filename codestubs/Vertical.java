@@ -3,6 +3,9 @@ class Vertical{
 			description;
 	Volunteer head;
 	
+	public Vertical(){}
+	public Vertical(String name, String description, Volunteer head){}
+	
 	public String getName(){
 		
 	}
