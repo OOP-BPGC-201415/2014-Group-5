@@ -1,4 +1,5 @@
 class Meeting{
+	int id;
 	int time;
 	String 	location,
 			Purpose;
@@ -7,6 +8,9 @@ class Meeting{
 	public Meeting(){}
 	public Meeting(int time, String location, String purpose){}
 	
+	
+	public int getId(){}
+	public void setId(int id){}	
 	
 	public void setTime(int t){}
 	public void setLocation(String loc){}

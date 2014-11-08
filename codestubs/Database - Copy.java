@@ -1,22 +1,6 @@
 import java.sql.*;
 import java.util.HashMap;
-
-//Mock class
-class Database{
-	static ResultSet mock;
-	
-	public static void setMock(ResultSet rs){
-		mock = rs;
-	}
-	
-	public static ResultSet query(String dummy){
-		return mock;
-	}
-}
-
-/*
-
-static class TargetDatabase{
+static class Database{
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	private static final String DB_URL = "jdbc:mysql://localhost/test";
 	// Database credentials
@@ -58,4 +42,3 @@ static class TargetDatabase{
 		
 	}
 }
-*/

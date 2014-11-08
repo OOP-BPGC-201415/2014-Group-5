@@ -1,4 +1,5 @@
 class Vertical{
+	int id;
 	String 	name,
 			description;
 	Volunteer head;
@@ -6,6 +7,10 @@ class Vertical{
 	public Vertical(){}
 	public Vertical(String name, String description, Volunteer head){}
 	
+	public int getId(){}
+	public void setId(int id){}	
+
+
 	public String getName(){
 		
 	}

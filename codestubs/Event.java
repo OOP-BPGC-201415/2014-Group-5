@@ -1,10 +1,16 @@
 class Event{
+	int id;
 	String 	name,
 			description;
 	Volunteer head;
 	
 	public Event(){}
 	public Event(String name, String description, Volunteer head){}
+	
+	
+	public int getId(){}
+	public void setId(int id){}
+	
 	
 	public String getName(){}
 	public String getDescription(){}

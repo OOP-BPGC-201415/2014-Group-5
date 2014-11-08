@@ -1,5 +1,5 @@
 class Discussion{
-
+	int id;
 	DiscussionPost[] posts;
 	String title;
 	Event event;
@@ -7,6 +7,13 @@ class Discussion{
 	public Discussion(){}
 	
 	public Discussion(Event event, String title){}
+	
+	
+	
+	public int getId(){}
+	public void setId(int id){}
+	
+	
 	
 	public void setEvent(Event e){}
 	public void setTitle(String t){}

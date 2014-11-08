@@ -1,7 +1,13 @@
 class EventUpdate{
+	int id;
 	String message;
 	Event event;
 	int timeStamp;
+	
+	
+	public int getId(){}
+	public void setId(int id){}
+	
 	
 	public EventUpdate(){}
 	public EventUpdate(Event event, String message){}	//timeStamp defaults to currentTime
