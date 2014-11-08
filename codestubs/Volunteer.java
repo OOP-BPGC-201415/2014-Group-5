@@ -5,10 +5,13 @@ class Volunteer{
 	Timetable timetable;
 	Vertical vertical;
 	
+	//Situational variables?
 	
-	void setVertical(Vertical V){
-		
-	}
+	
+	public void Volunteer(String name, String ID, Branch branch){}
+	
+	
+	public void setVertical(Vertical V){}	//Ideally, We'd call Vertical.addVolunteer(...) instead
 	
 	public String getName(){}
 	public String getID(){}
@@ -21,5 +24,6 @@ class Volunteer{
 	public void setBranch(Branch b){}
 	public void setTimetable(Timetable tt){}
 	
-	
+	public void store(){}
+	public void load(int volunteerId){}
 }

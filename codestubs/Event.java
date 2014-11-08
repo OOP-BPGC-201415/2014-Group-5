@@ -15,4 +15,16 @@ class Event{
 	public void setDescription(String id){}
 	public void setHead(Volunteer v){}
 	public void setVertical(Vertical vert){}
+	
+	public void addActivity(){}
+	//public void addMeeting(){}
+	public void addNotice(){}
+	public void addUpdate(){}
+	
+	public Activity[] getActivityList(){}
+	public Notice[] getNoticeList(){}
+	public EventUpdate[] getUpdates(){}
+	
+	public void load(int eventId){}
+	public void store(){}
 }

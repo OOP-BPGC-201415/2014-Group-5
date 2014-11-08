@@ -10,11 +10,18 @@ class Discussion{
 	
 	public void setEvent(Event e){}
 	public void setTitle(String t){}
-	public void addPost(DiscussionPost){}
+	
 	
 	public DiscussionPost[] getPosts(){}
 	public String getTitle(){}
+	
 	public Event getEvent(){}
+	
+	
+	public void addPost(DiscussionPost dp){}
+	
+	public void load(int discussionId){} //Loads from the database. Includes all discussion posts
+	public void store(){} //Creates a new discussion in the database
 	
 	class DiscussionPost{
 		Volunteer poster;
@@ -31,5 +38,6 @@ class Discussion{
 		public String getPost(){}
 		public Volunteer getPoster(){}
 		public int getTimeStamp(){}
+		
 	}
 }

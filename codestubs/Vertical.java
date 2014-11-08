@@ -29,15 +29,28 @@ class Vertical{
 		
 	}
 	
-	public void getVolunteerList(){
-		
-	}
+	
+	
+	public void addEvent(Event e){}
 	
 	public void addVolunteer(Volunteer v){
 		//Call Volunteer.setVertical
 	}
 	
-	public void addEvent(Event e){
+	public Volunteer[] getVolunteerList(){
 		
 	}
+	
+	/*
+	General information
+	*/
+	
+	
+	public Event[] getEventList(){}
+	
+	public Activity[] getActivityList(){}
+	
+	//public Meeting[] getMeetingList(){}
+	public void load(int verticalId){}
+	public void store(){}
 }

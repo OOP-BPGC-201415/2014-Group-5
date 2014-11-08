@@ -10,4 +10,6 @@ class Notice{
 	
 	public String getMessage(){}
 	public Event getEvent(){}
+	
+	public void load(){}
 }

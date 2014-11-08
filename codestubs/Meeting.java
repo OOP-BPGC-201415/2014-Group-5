@@ -14,12 +14,14 @@ class Meeting{
 	public void setAttendees(Volunteer[] v){}
 	
 	
-	public String getTime(){}
+	public int getTime(){}
 	public String getLocation(){}
-	public Volunteer getPurpose(){}
-	public Event getAttendees(){}
+	public String getPurpose(){}
+	public Vounteer[] getAttendees(){}
 	
-	public void addAttendee(Volunteer v){
-		
-	}
+	public void addAttendee(Volunteer v){}
+	
+	public void load(int meetingId){}
+	public void store(){}
+	
 }

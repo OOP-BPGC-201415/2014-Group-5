@@ -18,4 +18,11 @@ class Activity{
 	public void setEvent(Event e){}
 	
 	public void setReport(String report){}
+	
+	
+	public void confirmAvailability(Volunteer v){}
+	
+	public void load(int activityId){} //Loads from the database
+	public void store(){} //Stores into the database
+	
 }
