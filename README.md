@@ -34,5 +34,3 @@ UML diagrams:
 Testing:
 	Tests have been implemented using the jUnit and EasyMock frameworks.
 	The Database class has been replaced by a Mock class to facilitate testing. It will be replaced by the actual class ( tested separately ) once the testing is complete.
-	
-
