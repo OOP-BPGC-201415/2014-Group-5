@@ -1,10 +1,12 @@
+package nirmaanam;
+
 class Notice{
 	int id;
 	String message;
 	Event event;
 	
-	public Notice();
-	public Notice(Event event, String message);
+	public Notice(){};
+	public Notice(Event event, String message){};
 	
 	public int getId(){}
 	public void setId(int id){}

@@ -1,16 +1,18 @@
+package nirmaanam;
+
 class Volunteer{
 	int id;
 	String 	name,
 			bitsID;
 	int year;
-	Timetable timetable;
+	TimeTable timetable;
 	Vertical vertical;
 	
 	//Situational variables?
 	boolean isAvailable;
 	
-	
-	public void Volunteer(String name, String ID, int year){}
+	public Volunteer(){}
+	public Volunteer(String name, String ID, int year){}
 	
 	
 	public int getId(){}
@@ -23,14 +25,14 @@ class Volunteer{
 	
 	public String getName(){}
 	public String getBitsID(){}
-	public Year getYear(){}
-	public Timetable getTimetable(){}
+	public int getYear(){}
+	public TimeTable getTimetable(){}
 	public String getVertical(){}
 	
 	public void setName(String n){}
 	public void setBitsID(String id){}
-	public void setYear(Year y){}
-	public void setTimetable(Timetable tt){}
+	public void setYear(int y){}
+	public void setTimetable(TimeTable tt){}
 	
 	public void store(){}
 	public void load(int volunteerId){}

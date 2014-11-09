@@ -1,4 +1,8 @@
-//import java.sql.*;
+package nirmaanam;
+
+import static org.junit.Assert.*;
+import static org.easymock.EasyMock.*;
+import java.sql.*;
 
 class TestVertical extends TestCase{
 	

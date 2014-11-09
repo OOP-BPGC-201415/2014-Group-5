@@ -1,3 +1,5 @@
+package nirmaanam;
+
 class Discussion{
 	int id;
 	DiscussionPost[] posts;

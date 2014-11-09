@@ -4,7 +4,7 @@ import java.sql.*;
 import static org.junit.Assert.*;
 import static org.easymock.EasyMock.*;
 
-class TestMeeting extends TestCase{
+class TestVolunteer extends TestCase{
 	
 	public void setUp(){
 	}
@@ -12,8 +12,5 @@ class TestMeeting extends TestCase{
 	public void tearDown(){
 	}
 	
-	public void testAddAttendee(){
-		
-	}
 }
 	

@@ -1,5 +1,7 @@
+package nirmaanam;
+
 class TimeTable{
-	TimeSlot[] busyslots;
+	ArrayList<TimeSlot> busyslots;
 	//Volunteer v;	//The volunteer this belongs to ?
 	
 	public void addSlot(TimeSlot ts){}

@@ -1,4 +1,8 @@
-//import java.sql.*;
+package nirmaanam;
+
+import static org.junit.Assert.*;
+import java.sql.*;
+import static org.easymock.EasyMock.*;
 
 class TestEvent extends TestCase{
 	

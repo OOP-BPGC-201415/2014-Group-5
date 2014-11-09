@@ -1,4 +1,11 @@
+package nirmaanam;
+
+Enum Availability{
+	PENDING, AVAILABLE, UNAVAILABLE
+}
+
 class Activity{
+	
 	int id;
 	String 	name,
 			description,
@@ -7,6 +14,7 @@ class Activity{
 	
 	//Situational
 	Volunteer[] assignees;
+	//Constants
 	
 	public Activity(){}
 	public Activity(String name, String description, Volunteer head){}
@@ -27,7 +35,7 @@ class Activity{
 	
 	public void setReport(String report){}
 	
-	
+	public void addAssignee(Volunteer v){}
 	
 	public Volunteer[] getAssignees(){
 		//Does a database query
@@ -40,12 +48,12 @@ class Activity{
 		//Returns true or false accordingly
 	}
 	
-	public int getAvailability(Volunteer v){
+	public Availability getAvailability(Volunteer v){
 		//Does a database query
 		//Gets a result set
 		//Returns true, false or not set
 	}
-	public void confirmAvailability(Volunteer v){}
+	public void confirmAvailability(Volunteer v,Availability av){}
 	
 	
 	

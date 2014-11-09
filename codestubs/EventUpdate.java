@@ -1,3 +1,5 @@
+package nirmaanam;
+
 class EventUpdate{
 	int id;
 	String message;

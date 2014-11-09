@@ -1,3 +1,5 @@
+package nirmaanam;
+
 class Vertical{
 	int id;
 	String 	name,

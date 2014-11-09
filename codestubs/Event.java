@@ -1,3 +1,5 @@
+package nirmaanam;
+
 class Event{
 	int id;
 	String 	name,

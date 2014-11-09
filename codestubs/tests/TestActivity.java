@@ -1,4 +1,10 @@
-//import java.sql.*;
+package nirmaanam;
+
+import static org.junit.Assert.*;
+import java.sql.*;
+import static org.easymock.EasyMock.*;
+import nirmaanam.Activity.Availability;
+
 
 class TestActivity{
 	
@@ -9,7 +15,7 @@ class TestActivity{
 	}
 	
 	
-	public void testGetAttendees(){
+	public void testGetAssignees(){
 		ResultSet RSMock = createNiceMock(ResultSet.class);
 		
 		expect(RSMock.getInt("id")).andReturn(123);
@@ -22,8 +28,8 @@ class TestActivity{
 		Activity activity = new Activity("testActivity","description",new Volunteer("head","headId",2012));
 		//Setup a new dummy Volunteer
 		
-		Volunteer[] aList = activity.getAttendees();
-		assertEquals("getAttendees failed", aList[0].getId(), 123);
+		Volunteer[] aList = activity.getAssignees();
+		assertEquals("getAssignees failed", aList[0].getId(), 123);
 		
 	}
 	
@@ -34,7 +40,7 @@ class TestActivity{
 		invited.setId(1);
 		
 		activity.addAttendee(invited);
-		Volunteer[] aList = activity.getAttendees();
+		Volunteer[] aList = activity.getAssignees();
 		assertEquals("AddAttendee failed", aList[aList.size()-1].getId(), invited.getId());
 	}
 	
@@ -66,10 +72,12 @@ class TestActivity{
 			Volunteer v2 = new Volunteer("pqr","YYYYBBBBIIIIC", 2012);
 			v1.setId(2);
 			
-			subject.confirmAvailability(v1, true);
-			assertEquals("Confirm availability ( true ) failed ", subject.getAvailability(v1), true);
+			Activity activity = new Activity("testActivity","description",new Volunteer("head","headId",2012));
 			
-			subject.confirmAvailability(v2, false);
-			assertEquals("Confirm availability ( true ) failed ", subject.getAvailability(v2), false);
+			activity.confirmAvailability(v1, Availability.AVAILABLE);
+			assertEquals("Confirm availability ( true ) failed ", activity.getAvailability(v1), Availability.AVAILABLE);
+			
+			activity.confirmAvailability(v2, Availability.UNAVAILABLE);
+			assertEquals("Confirm availability ( false ) failed ", activity.getAvailability(v2), Availability.UNAVAILABLE);
 	}
 }
