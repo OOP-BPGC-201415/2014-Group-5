@@ -1,63 +1,116 @@
 package nirmaanam;
 
 import java.sql.*;
-import java.util.HashMap;
+//import java.util.HashMap;
+import java.util.ArrayList;
+import nirmaanam.DatabaseQuery;
+import nirmaanam.DatabaseParam.ParamTypes;
 
-//Mock class
 class Database{
-	static ResultSet mock;
-	
-	public static void setMock(ResultSet rs){
-		mock = rs;
-	}
-	
-	public static ResultSet query(String dummy){
-		return mock;
-	}
-}
-
-/*
-
-static class TargetDatabase{
 	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
 	private static final String DB_URL = "jdbc:mysql://localhost/test";
 	// Database credentials
 	private static final String DB_USER = "root";
 	private static final String DB_PASS = "";
 	
-	public Database(boolean connectNow=true){
-		if(connectNow)
-			connect();
+	public static Database mainInstance = null;
+	static Connection conn;
+	
+	public Database() throws SQLException{		connect();	}
+	
+	/**
+		Turns off autocommit for transaction
+	**/
+	public void beginTransaction() throws SQLException{
+		conn.setAutoCommit(false);
 	}
 	
-	public void connect(){
-		Class.forName("com.mysql.jdbc.Driver");
-		conn = DriverManager.getConnection(DB_URL,USER,PASS);
+	public void commit() throws SQLException{
+		conn.commit();
+		conn.setAutoCommit(true);
 	}
 	
-	public void insert(String table, ArrayList<DatabaseParam> params){
-		insertStatment = conn.prepareStatement(updateString);
-		for(param : params){
-			if(param.type == DatabaseParam.INT){
-				//insertStatment.
-			}
-			else if(param.type == DatabaseParam.STRING){
-				//insertStatment.
-			}
+	public void rollback() throws SQLException{
+		conn.rollback();
+		conn.setAutoCommit(true);
+	}
+	/**
+		Establishes a connection to the mysql server
+	**/
+	public void connect() throws SQLException{
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(DB_URL,DB_USER,DB_PASS);
+		}catch(ClassNotFoundException CNFE){
+			throw(new SQLException("Could not load the drivers"));
 		}
-		
 	}
 	
-	public class DatabaseParam{
-		int type ;
-		String field;
-		
-		int intVal;
-		String stringVal;
-		
-		public static const int INT = 1;
-		public static const int STRING = 2;
-		
+	/**
+		Creates a SelectQuery object for select queries and returns it for use.
+	**/
+	public SelectQuery select(String table){
+		return new SelectQuery(this,table);
 	}
+	
+	/**
+		Creates an updateQuery object for insert queries and returns it for use.
+	**/
+	public UpdateQuery update(String table){
+		return new UpdateQuery(this,table);
+	}
+	
+	/**
+		Creates an insertQuery object for insert queries and returns it for use.
+	**/
+	public InsertQuery insert(String table){
+		return new InsertQuery(this,table);
+	}
+	
+	/**
+		returns the instance that has the common connection
+	**/
+	public static Database getDB() throws SQLException{
+		if(mainInstance == null ){
+			mainInstance = new Database();
+		}
+		return mainInstance;
+	}
+	
+	
+	//Few validation functions
+	/**
+		Checks if the input is invalid(0)
+	**/
+	Database checkInput(int... args) throws IncompleteFieldException{
+		for(int arg: args){
+			if(arg==0)
+				;//throw(new IncompleteFieldException(""));
+		}
+		return this;
+	}
+	/**
+		Checks if the input is invalid( "" ) else Throws IncompleteFieldException
+	**/
+
+	Database checkInput(String... args) throws IncompleteFieldException{
+		for(String arg: args){
+			if(arg=="")
+				;//throw(new IncompleteFieldException(""));
+		}
+		return this;
+	}
+	
+	/**
+		Checks if the input is invalid( null object )
+	**/
+	/*
+	Database checkInput(Object... args) throws IncompleteFieldException{
+		for(Object arg: args){
+			if(arg==null)
+				throw(new IncompleteFieldException IFE());
+		}
+		return this;
+	}
+	*/
 }
-*/
