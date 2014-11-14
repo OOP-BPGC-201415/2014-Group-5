@@ -1,1 +1,1 @@
-javac -d "build" %1
+javac nirmaanam/%1 -d "build"  -cp ".;..\lib\*"

@@ -1,4 +1,5 @@
 package nirmaanam;
+import java.sql.*;
 
 class Notice{
 	int id;
@@ -43,6 +44,26 @@ class Notice{
 		return event;
 	}
 	
-	public void load(){}
-	public void store(){}
+	public Notice load(int noticeId) throws SQLException,EntityNotFoundException{
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("Notice").where("id",noticeId).execute();
+		ResultSet rs = sq.getResultSet();
+		if(rs.next()){
+			this.id = rs.getInt("id");
+			this.message = rs.getString("message");
+			this.event = new Event().load(rs.getInt("event"));
+			
+		}
+		else
+			throw(new EntityNotFoundException("Notice#"+noticeId+" not found"));
+			
+		return this;
+	}
+	
+	public void store() throws SQLException,IncompleteFieldException{
+		Database db = Database.getDB();
+		db.checkInput(message).checkInput(event.id);	//, timestamp);
+		InsertQuery iq= db.insert("EventUpdate").addParam("message",message).addParam("event",event.id).execute();
+		this.id = iq.insertId();
+	}
 }

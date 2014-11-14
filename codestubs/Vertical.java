@@ -1,5 +1,6 @@
 package nirmaanam;
 import java.sql.*;
+import java.util.ArrayList;
 
 class Vertical{
 	int id;
@@ -51,26 +52,65 @@ class Vertical{
 	
 	
 	//TODO
-	public void addEvent(Event e){}
+	public void addEvent(Event e) throws SQLException{
+		e.setVertical(this);
+		Database db= Database.getDB();
+		UpdateQuery uq = db.update("Event").addParam("vertical",this.id).where("id",e.id).execute();
+	}
 	
 	public void addVolunteer(Volunteer v) throws SQLException{
-		//Call Volunteer.setVertical
+		v.setVertical(this);
 		Database db= Database.getDB();
 		UpdateQuery uq = db.update("volunteer").addParam("vertical",this.id).where("id",v.id).execute();
 	}
 	
-	public Volunteer[] getVolunteerList(){return null;
+	public ArrayList<Volunteer> getVolunteerList() throws SQLException{
+		ArrayList<Volunteer> vList = new ArrayList<Volunteer>();
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("volunteer").where("vertical",this.id).execute();
 		
+		ResultSet rs = sq.getResultSet();
+		while(rs.next()){
+			Volunteer v= new Volunteer(rs.getString("name"), rs.getString("bitsID"), rs.getInt("year"));
+			v.setId(rs.getInt("id"));
+			vList.add(v);
+		}
+		return vList;
 	}
 	
 	/*
 	General information
 	*/
+	public ArrayList<Event> getEventList() throws SQLException,EntityNotFoundException{
+		ArrayList<Event> eList = new ArrayList<Event>();
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("event").where("vertical",this.id).execute();
+		
+		ResultSet rs = sq.getResultSet();
+		while(rs.next()){
+			Volunteer eh = new Volunteer().load(rs.getInt("head"));
+			Event e= new Event(rs.getString("name"), rs.getString("description"), eh);	
+			e.setId(rs.getInt("id"));
+			eList.add(e);
+		}
+		return eList;
+	}
 	
-	
-	public Event[] getEventList(){return null;}
-	
-	public Activity[] getActivityList(){return null;}
+	public ArrayList<Activity> getActivityList() throws SQLException,EntityNotFoundException{
+		ArrayList<Activity> aList = new ArrayList<Activity>();
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("event").where("vertical",this.id).execute();
+		
+		ResultSet rs = sq.getResultSet();
+		while(rs.next()){
+			Volunteer ah = new Volunteer().load(rs.getInt("head"));
+			Activity a= new Activity(rs.getString("name"), rs.getString("description"), ah);	
+			a.setId(rs.getInt("id"));
+			a.setEvent( new Event().load(rs.getInt("event")));
+			aList.add(a);
+		}
+		return aList;
+	}
 	
 	//public Meeting[] getMeetingList(){}
 	public Vertical load(int verticalId) throws SQLException,EntityNotFoundException{
@@ -93,5 +133,6 @@ class Vertical{
 		Database db = Database.getDB();
 		db.checkInput(name).checkInput(head.id);
 		InsertQuery iq= db.insert("vertical").addParam("name",name).addParam("description",description).addParam("head",head.id).execute();
+		this.id = iq.insertId();
 	}
 }

@@ -1,6 +1,7 @@
 package nirmaanam;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 class Activity{
 	public enum Availability{
@@ -13,7 +14,7 @@ class Activity{
 	Volunteer head;
 	Event event;
 	//Situational
-	Volunteer[] assignees;
+	ArrayList<Volunteer> assignees;
 	//Constants
 	
 	public Activity()
@@ -75,33 +76,49 @@ class Activity{
 		this.event=e;
 	}
 	
-	public void setReport(String report)
-	{
+	public void setReport(String report){
 		this.report=report;
+	}
+	
+	public void addAssignee(Volunteer v) throws SQLException{
+		Database db = Database.getDB();
+		InsertQuery iq = db.insert("Activity_assignee").addParam("activity",this.id).addParam("volunteer",v.id).execute();
+	}
+	
+	public ArrayList<Volunteer> getAssignees() throws SQLException{//Does a database query		//Gets a result set		//Returns an array of Volunteers
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("Activity_assignee").where("activity",this.id).execute();
+		ResultSet rs = sq.getResultSet();
+		assignees = new ArrayList<Volunteer>();
+		while(rs.next()){
+			Volunteer v= new Volunteer(rs.getString("name"), rs.getString("bitsID"), rs.getInt("year"));
+			v.setId(rs.getInt("id"));
+			assignees.add(v);
+		}
+		return this.assignees;
+	}
+	public boolean isAssignee(Volunteer v) throws SQLException {
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("Activity_assignee").where("volunteer",v.id).execute();
+		ResultSet rs = sq.getResultSet();
+		return (rs.next())?true:false;
+	}
+	
+	public Availability getAvailability(Volunteer v) throws SQLException,EntityNotFoundException {
+        Database db = Database.getDB();
+		SelectQuery sq = db.select("Activity_assignee").where("volunteer",v.id).execute();
+		ResultSet rs = sq.getResultSet();
+		if(rs.next()){
+			return Availability.values()[rs.getInt("availability")];
+		}
+		else
+			throw(new EntityNotFoundException("Volunteer#"+v.id+" may not be an assignee of Activity#"+this.id));
+		
 		
 	}
-	
-	public void addAssignee(Volunteer v){}
-	
-	public Volunteer[] getAssignees(){return null;
-		//Does a database query
-		//Gets a result set
-		//Returns an array of Volunteers
-	}
-	public boolean isAssignee(Volunteer v){
-		return false;
-		//Does a query
-		//Gets a result set
-		//Returns true or false accordingly
-	}
-	
-	public Availability getAvailability(Volunteer v){
-           return null;
-		//Does a database query
-		//Gets a result set
-		//Returns true, false or not set
-	}
-	public void confirmAvailability(Volunteer v,Availability av){
+	public void confirmAvailability(Volunteer v,Availability av) throws SQLException {
+		Database db = Database.getDB();
+		UpdateQuery uq = db.update("Activity_assignee").addParam("availability",av.ordinal()).where("volunteer",v.id).execute();
 		
 	}
 	
@@ -125,6 +142,7 @@ class Activity{
 		Database db = Database.getDB();
 		db.checkInput(name).checkInput(head.id);
 		InsertQuery iq= db.insert("Activity").addParam("name",name).addParam("description",description).addParam("head",head.id).execute();
+		this.id = iq.insertId();
 	} //Stores into the database
 	
 }

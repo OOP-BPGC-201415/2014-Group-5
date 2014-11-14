@@ -70,6 +70,8 @@ class Volunteer{
 		Database db = Database.getDB();
 		db.checkInput(year,vertical.id).checkInput(name,bitsID);//.checkInput(vertical);
 		InsertQuery iq= db.insert("volunteer").addParam("name",name).addParam("bitsID",bitsID).addParam("year",year).addParam("vertical",vertical.id).execute();
+		this.id = iq.insertId();
+		System.out.println("GOT " + this.id + " AS insertId");
 	}
 	
 	

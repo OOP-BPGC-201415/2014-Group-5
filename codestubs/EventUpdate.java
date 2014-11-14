@@ -62,27 +62,26 @@ class EventUpdate{
 	}
 
 	public EventUpdate load(int EventUpdateId) throws SQLException,EntityNotFoundException{
-		/*Database db = Database.getDB();
-		selectQuery sq = db.select("Activity").where("id",EventUpdateId).execute();
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("EventUpdate").where("id",EventUpdateId).execute();
 		ResultSet rs = sq.getResultSet();
 		if(rs.next()){
 			this.id = rs.getInt("id");
-			this.name = rs.getString("name");
-			this.description = rs.getString("description");
-			this.head = new Volunteer().load(rs.getInt(head));
+			this.message = rs.getString("message");
+			this.event = new Event().load(rs.getInt("eventId"));
+			this.timeStamp = rs.getInt("timeStamp");
 		}
 		else
 			throw(new EntityNotFoundException("EventUpdate#"+EventUpdateId+" not found"));
-			*/
+			
 		return this;
 	} //Loads from the database
 	
 	public void store() throws SQLException,IncompleteFieldException{
-		/*
 		Database db = Database.getDB();
-		db.checkInput(message).checkInput(Event).checkInput(timeStamp);
-		InsertQuery iq= db.insert("Activity").addParam("name",name).addParam("description",description).addParam("head",head.id).execute();
-		*/
+		db.checkInput(message).checkInput(event.id);	//, timestamp);
+		InsertQuery iq= db.insert("EventUpdate").addParam("message",message).addParam("event",event.id).execute();
+		this.id = iq.insertId();
 	} //Stores into the database
 
 }//end of class

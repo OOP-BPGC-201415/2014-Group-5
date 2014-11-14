@@ -98,7 +98,7 @@ class Event{
 		Database db = Database.getDB();
 		db.checkInput(name).checkInput(head.id,vertical.id);
 		InsertQuery iq= db.insert("Event").addParam("name",name).addParam("description",description).addParam("head",head.id).addParam("vertical",vertical.id).execute();
-		
+		this.id = iq.insertId();
 	}
 	
 }
