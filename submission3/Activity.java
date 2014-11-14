@@ -106,7 +106,7 @@ class Activity{
 	
 	public Availability getAvailability(Volunteer v) throws SQLException,EntityNotFoundException {
         Database db = Database.getDB();
-		SelectQuery sq = db.select("Activity_assignee").where("volunteer",v.id).execute();
+		SelectQuery sq = db.select("Activity_assignee").where("activity",this.id).where("volunteer",v.id).execute();
 		ResultSet rs = sq.getResultSet();
 		if(rs.next()){
 			return Availability.values()[rs.getInt("availability")];
@@ -118,8 +118,7 @@ class Activity{
 	}
 	public void confirmAvailability(Volunteer v,Availability av) throws SQLException {
 		Database db = Database.getDB();
-		UpdateQuery uq = db.update("Activity_assignee").addParam("availability",av.ordinal()).where("volunteer",v.id).execute();
-		
+		UpdateQuery uq = db.update("Activity_assignee").addParam("availability",av.ordinal()).where("activity",this.id).where("volunteer",v.id).execute();
 	}
 	
 	public Activity load(int activityId) throws SQLException,EntityNotFoundException{
