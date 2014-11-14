@@ -47,6 +47,13 @@ class Database{
 	}
 	
 	/**
+		Returns the connection object in use by this instance
+	*/
+	public Connection getConn(){
+		return conn;
+	}
+	
+	/**
 		Creates a SelectQuery object for select queries and returns it for use.
 	**/
 	public SelectQuery select(String table){
@@ -76,8 +83,6 @@ class Database{
 		}
 		return mainInstance;
 	}
-	
-	
 	//Few validation functions
 	/**
 		Checks if the input is invalid(0)

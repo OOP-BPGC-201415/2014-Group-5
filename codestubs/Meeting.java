@@ -38,8 +38,16 @@ class Meeting{
 	public String getPurpose(){return purpose;}
 	public Volunteer[] getAttendees(){return attendees;}
 	
-	public void addAttendee(Volunteer v)
-	{
+	public void addAttendee(Volunteer v)  throws SQLException{
+		Database db = Database.getDB();
+		InsertQuery sq = db.insert("Meeting_attendees").addParam("meeting",this.id).addParam("volunteer",v.id).execute();
+	}
+	
+	public void addAttendee(Vertical vert) throws SQLException{
+		String query = "INSERT INTO Meeting_attendees (meeting,volunteer) (SELECT " + this.id + ", id FROM volunteer WHERE vertical=?)";
+		PreparedStatement iq = Database.getDB().getConn().prepareStatement(query);
+		iq.setInt(1, vert.id);
+		iq.executeUpdate();
 	}
 	
 	public Meeting load(int meetingId) throws SQLException,EntityNotFoundException{

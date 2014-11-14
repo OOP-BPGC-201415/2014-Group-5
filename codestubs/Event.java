@@ -1,6 +1,7 @@
 package nirmaanam;
 //import nirmaanam.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 class Event{
 	int id;
@@ -70,9 +71,44 @@ class Event{
 	}
 	
 	//TODO!
-	public Activity[] getActivityList(){return null;}
-	public Notice[] getNoticeList(){return null;}
-	public EventUpdate[] getUpdates(){return null;}
+	public ArrayList<Activity> getActivityList() throws SQLException, EntityNotFoundException{
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("Activity").where("event",this.id).execute();
+		ArrayList<Activity> aList = new ArrayList<Activity>();
+		ResultSet rs = sq.getResultSet();
+		while(rs.next()){
+			Volunteer ah = new Volunteer().load(rs.getInt("head"));
+			Activity a= new Activity(rs.getString("name"), rs.getString("description"), ah);	
+			a.setId(rs.getInt("id"));
+			a.setEvent( new Event().load(rs.getInt("event")));
+			aList.add(a);
+		}
+		return aList;
+	}
+	
+	public ArrayList<Notice> getNoticeList() throws SQLException{
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("Notice").where("event",this.id).execute();
+		
+		ResultSet rs = sq.getResultSet();
+		ArrayList<Notice> nList = new ArrayList<Notice>();
+		while(rs.next()){
+			Notice n = new Notice(this, rs.getString("message"));	
+			nList.add(n);
+		}
+		return nList;
+	}
+	public ArrayList<EventUpdate> getUpdates() throws SQLException{
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("EventUpdate").where("event",this.id).execute();
+		
+		ResultSet rs = sq.getResultSet();
+		ArrayList<EventUpdate> uList = new ArrayList<EventUpdate>();
+		while(rs.next()){
+			uList.add(new EventUpdate(this, rs.getString("message")));
+		}
+		return uList;
+	}
 	
 	public Event load(int eventId) throws SQLException,EntityNotFoundException{
 		Database db = Database.getDB();
