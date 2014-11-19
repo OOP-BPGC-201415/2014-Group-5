@@ -1,3 +1,5 @@
+---- Structure for database `nirmaanam` ----
+USE nirmaanam;
 
 CREATE TABLE Activity
 (
@@ -88,5 +90,6 @@ CREATE TABLE Volunteer
 (
 id INT PRIMARY KEY AUTO_INCREMENT,
 name text,
+bitsID VARCHAR(12),
 vertical int
 );
