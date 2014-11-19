@@ -1,0 +1,4 @@
+THE_MAIN_CLASSES_GO_HERE
+
+Run 
+javac servlet/*.java -d ../classes for easy building
