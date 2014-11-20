@@ -1,6 +1,6 @@
 package nirmaanam;
 
-class IncompleteFieldException extends Exception{
+public class IncompleteFieldException extends Exception{
 	public IncompleteFieldException(){
 		super();
 	}

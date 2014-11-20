@@ -76,8 +76,13 @@ public class Volunteer{
 	
 	
 	public Volunteer load(int volunteerId) throws SQLException,EntityNotFoundException{
+		return this.load(volunteerId, null);
+	}
+	
+	
+	public Volunteer load(int volunteerId, Vertical vertical) throws SQLException,EntityNotFoundException{
 		Database db = Database.getDB();
-		SelectQuery sq = db.select("volunteeer").where("id",volunteerId).execute();
+		SelectQuery sq = db.select("volunteer").where("id",volunteerId).execute();
 		ResultSet rs = sq.getResultSet();
 		
 		if(rs.next()){
@@ -86,7 +91,11 @@ public class Volunteer{
 			
 			this.name = rs.getString("name");
 			this.bitsID = rs.getString("bitsID");
-			this.vertical = new Vertical().load(rs.getInt("vertical"));
+			
+			if(vertical==null)
+				this.vertical = new Vertical().load(rs.getInt("vertical"));
+			else
+				this.vertical = vertical;
 		}
 		else
 			throw(new EntityNotFoundException("Volunteer#"+volunteerId+" not found"));

@@ -113,7 +113,7 @@ public class Vertical{
 	}
 	
 	//public Meeting[] getMeetingList(){}
-	public Vertical load(int verticalId) throws SQLException,EntityNotFoundException{
+	public Vertical load(int verticalId, Volunteer head) throws SQLException,EntityNotFoundException{
 		Database db = Database.getDB();
 		SelectQuery sq = db.select("vertical").where("id",verticalId).execute();
 		ResultSet rs = sq.getResultSet();
@@ -122,11 +122,17 @@ public class Vertical{
 			this.id = rs.getInt("id");
 			this.name = rs.getString("name");
 			this.description = rs.getString("description");
-			this.head = new Volunteer().load(rs.getInt("head"));
+			if(head==null)
+				this.head = new Volunteer().load(rs.getInt("head"), this);	//this prevents loading of the Vertical.
+			else
+				this.head = head;
 		}
 		else
 			throw(new EntityNotFoundException("Vertical#"+verticalId+" not found"));
 		return this;
+	}
+	public Vertical load(int verticalId) throws SQLException,EntityNotFoundException{
+		return this.load(verticalId, null);
 	}
 	
 	public void store() throws SQLException,IncompleteFieldException{

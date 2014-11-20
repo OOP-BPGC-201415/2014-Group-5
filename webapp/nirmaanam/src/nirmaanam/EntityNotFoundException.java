@@ -1,6 +1,6 @@
 package nirmaanam;
 
-class EntityNotFoundException extends Exception{
+public class EntityNotFoundException extends Exception{
 	public EntityNotFoundException(){
 		super();
 	}

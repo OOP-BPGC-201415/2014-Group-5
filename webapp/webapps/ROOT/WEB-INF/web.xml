@@ -44,7 +44,17 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>VerticalServlet</servlet-name>
-		<url-pattern>/VerticalServlet</url-pattern>
+		<url-pattern>/Vertical</url-pattern>
+		<url-pattern>/Vertical/*</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>HomeServlet</servlet-name>
+		<servlet-class>servlets.HomeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>HomeServlet</servlet-name>
+		<url-pattern>/Home</url-pattern>
+		<url-pattern>/Home/*</url-pattern>
+	</servlet-mapping>
 </web-app>

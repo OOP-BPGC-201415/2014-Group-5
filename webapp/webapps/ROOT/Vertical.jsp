@@ -5,13 +5,9 @@
 <title><%="Home"%></title>
 </head>
 <body>
-Found: ${verticalList.size()}
-<%
-	ArrayList<Vertical> vList = (ArrayList<Vertical>) request.getAttribute("verticalList");
-	for(Vertical v: vList){%>
-		<p><b><%= v.getName()%></b>:<%= v.getDescription()%></p><%
-	}
 
-%>
+<h2>${vertical.getName()}</h2>
+<p>${vertical.getDescription()}</p>
+
 </body>
 </html>
