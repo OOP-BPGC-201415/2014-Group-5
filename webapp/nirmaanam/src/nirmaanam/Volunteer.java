@@ -2,8 +2,9 @@ package nirmaanam;
 import nirmaanam.*;
 import nirmaanam.Activity.Availability;
 import java.sql.*;
+import java.util.ArrayList;
 
-public class Volunteer{
+public class Volunteer implements NirmaanEntity{
 	int id;
 	String 	name,
 			bitsID;
@@ -71,7 +72,7 @@ public class Volunteer{
 		db.checkInput(year,vertical.id).checkInput(name,bitsID);//.checkInput(vertical);
 		InsertQuery iq= db.insert("volunteer").addParam("name",name).addParam("bitsID",bitsID).addParam("year",year).addParam("vertical",vertical.id).execute();
 		this.id = iq.insertId();
-		System.out.println("GOT " + this.id + " AS insertId");
+		//System.out.println("GOT " + this.id + " AS insertId");
 	}
 	
 	
@@ -79,6 +80,19 @@ public class Volunteer{
 		return this.load(volunteerId, null);
 	}
 	
+	public static ArrayList<Volunteer> loadAllVolunteers() throws SQLException,EntityNotFoundException{
+		ArrayList<Volunteer> vList = new ArrayList<Volunteer>();
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("volunteer").execute();
+		
+		ResultSet rs = sq.getResultSet();
+		while(rs.next()){
+			Volunteer v= new Volunteer(rs.getString("name"), rs.getString("bitsID"), rs.getInt("year"));
+			v.setId(rs.getInt("id"));
+			vList.add(v);
+		}
+		return vList;
+	}
 	
 	public Volunteer load(int volunteerId, Vertical vertical) throws SQLException,EntityNotFoundException{
 		Database db = Database.getDB();
@@ -101,5 +115,22 @@ public class Volunteer{
 			throw(new EntityNotFoundException("Volunteer#"+volunteerId+" not found"));
 			
 		return this;
+	}
+	
+	public boolean tryLogin(String email, String passHash) throws SQLException, EntityNotFoundException{
+		Database db = Database.getDB();
+		SelectQuery sq = db.select("volunteer").where("email",email).where("password",passHash).execute();
+		ResultSet rs = sq.getResultSet();
+		if(rs.next()){
+			load(rs.getInt("id"));
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public void updateLogin(String email, String passHash) throws SQLException{
+		Database db = Database.getDB();
+		UpdateQuery uq = db.update("Volunteer").addParam("email",email).addParam("password",passHash).where("id",id).execute();
 	}
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><%="Home"%></title>
+<title>${vertical.getName()}</title>
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 		<ul>
 		<%	
 		for(Event e: eventList){	%>
-			<li><b><%= e.getName() %>:</b> <%= e.getDescription() %></li> <% 
+			<li><b><a href="/Event/<%=e.getId()%>"><%= e.getName() %></a>:</b> <%= e.getDescription() %></li> <% 
 		}
 		%>
 		</ul><%

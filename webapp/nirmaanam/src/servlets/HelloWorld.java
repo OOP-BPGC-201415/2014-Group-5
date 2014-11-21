@@ -26,7 +26,7 @@ public class HelloWorld extends HttpServlet {
       PrintWriter out = response.getWriter();
       out.println("<h1>" + message + "</h1>");
 	  request.setAttribute("passedObject", this);
-	  request.getRequestDispatcher("/HelloWorld.jsp").include(request, response);
+	  request.getRequestDispatcher("/HelloWorld/HelloWorld.jsp").include(request, response);
 	  
   }
   public String getMessage(){

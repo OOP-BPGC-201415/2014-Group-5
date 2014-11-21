@@ -1,7 +1,7 @@
 package nirmaanam;
 import java.sql.*;
 
-public class Meeting{
+public class Meeting implements NirmaanEntity{
 	int id;
 	int time;
 	String 	location,

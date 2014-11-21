@@ -2,7 +2,7 @@ package nirmaanam;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Vertical{
+public class Vertical implements NirmaanEntity{
 	int id;
 	String 	name,
 			description;
@@ -52,10 +52,10 @@ public class Vertical{
 	
 	
 	//TODO
-	public void addEvent(Event e) throws SQLException{
+	public void addEvent(Event e) throws SQLException,IncompleteFieldException{
 		e.setVertical(this);
-		Database db= Database.getDB();
-		UpdateQuery uq = db.update("Event").addParam("vertical",this.id).where("id",e.id).execute();
+		//Database db= Database.getDB();UpdateQuery uq = db.update("Event").addParam("vertical",this.id).where("id",e.id).execute();
+		e.store();
 	}
 	
 	public void addVolunteer(Volunteer v) throws SQLException{
@@ -145,7 +145,7 @@ public class Vertical{
 	
 	/*Static*/
 	
-	public static ArrayList<Vertical> getVerticalList() throws SQLException,IncompleteFieldException{
+	public static ArrayList<Vertical> getVerticalList() throws SQLException,EntityNotFoundException{
 		ArrayList<Vertical> vList = new ArrayList<Vertical>();
 		Database db = Database.getDB();
 		SelectQuery sq = db.select("vertical").execute();

@@ -56,5 +56,37 @@
 		<servlet-name>HomeServlet</servlet-name>
 		<url-pattern>/Home</url-pattern>
 		<url-pattern>/Home/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>VolunteerServlet</servlet-name>
+		<servlet-class>servlets.VolunteerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VolunteerServlet</servlet-name>
+		<url-pattern>/Volunteer</url-pattern>
+		<url-pattern>/Volunteer/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ActivityServlet</servlet-name>
+		<servlet-class>servlets.ActivityServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ActivityServlet</servlet-name>
+		<url-pattern>/Activity</url-pattern>
+		<url-pattern>/Activity/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>EventServlet</servlet-name>
+		<servlet-class>servlets.EventServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EventServlet</servlet-name>
+		<url-pattern>/Event</url-pattern>
+		<url-pattern>/Event/*</url-pattern>
+	</servlet-mapping>
+	
 </web-app>

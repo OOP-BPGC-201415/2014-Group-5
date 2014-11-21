@@ -7,7 +7,8 @@ id INT PRIMARY KEY AUTO_INCREMENT,
 name text,
 description text,
 report text,
-head int
+head int,
+event int
 );
 
 CREATE TABLE Activity_assignees(
@@ -38,7 +39,7 @@ id INT PRIMARY KEY AUTO_INCREMENT,
 name text,
 description text,
 vertical INT,
-volunteer INT
+head INT
 );
 
 CREATE TABLE EventUpdate
@@ -91,5 +92,7 @@ CREATE TABLE Volunteer
 id INT PRIMARY KEY AUTO_INCREMENT,
 name text,
 bitsID VARCHAR(12),
-vertical int
+vertical int,
+email VARCHAR(100),
+password CHAR(32)
 );

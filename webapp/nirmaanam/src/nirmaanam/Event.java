@@ -3,7 +3,7 @@ package nirmaanam;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Event{
+public class Event implements NirmaanEntity{
 	int id;
 	String 	name,
 			description;
@@ -56,11 +56,13 @@ public class Event{
 		return this.vertical;
 	}
 	
-	public void addActivity(Activity A){
-	//	A.setEvent(this);
-		//A.store();
+	public void addActivity(Activity A) throws SQLException, IncompleteFieldException{
+		A.setEvent(this);
+		A.store();
 	}
-	//public void addMeeting(){}
+	/*public void addMeeting(Meeting M){
+		M.setEvent(this);
+	}*/
 	public void addNotice(Notice N){
 		//N.setEvent(this);
 		//N.store();
@@ -112,7 +114,7 @@ public class Event{
 	
 	public Event load(int eventId) throws SQLException,EntityNotFoundException{
 		Database db = Database.getDB();
-		SelectQuery sq = db.select("Activity").where("id",eventId).execute();
+		SelectQuery sq = db.select("event").where("id",eventId).execute();
 		ResultSet rs = sq.getResultSet();
 		if(rs.next()){
 			id = rs.getInt("id");

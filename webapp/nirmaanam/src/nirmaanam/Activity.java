@@ -3,7 +3,7 @@ package nirmaanam;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class Activity{
+public class Activity implements NirmaanEntity{
 	public enum Availability{
 		PENDING, AVAILABLE, UNAVAILABLE
 	}
@@ -75,9 +75,13 @@ public class Activity{
 	{
 		this.event=e;
 	}
-	
-	public void setReport(String report){
+	public String getReport(){
+		return this.report;
+	}
+	public void setReport(String report) throws SQLException{
 		this.report=report;
+		Database db = Database.getDB();
+		UpdateQuery uq = db.update("activity").addParam("report",report).where("id",this.id).execute();
 	}
 	
 	public void addAssignee(Volunteer v) throws SQLException{
@@ -129,7 +133,9 @@ public class Activity{
 			this.id = rs.getInt("id");
 			this.name = rs.getString("name");
 			this.description = rs.getString("description");
+			this.report = rs.getString("report");
 			this.head = new Volunteer().load(rs.getInt("head"));
+			this.event = new Event().load(rs.getInt("event"));
 		}
 		else
 			throw(new EntityNotFoundException("Activity#"+activityId+" not found"));
@@ -140,7 +146,7 @@ public class Activity{
 	public void store() throws SQLException,IncompleteFieldException{
 		Database db = Database.getDB();
 		db.checkInput(name).checkInput(head.id);
-		InsertQuery iq= db.insert("Activity").addParam("name",name).addParam("description",description).addParam("head",head.id).execute();
+		InsertQuery iq= db.insert("Activity").addParam("name",name).addParam("description",description).addParam("head",head.id).addParam("event",event.id).execute();
 		this.id = iq.insertId();
 	} //Stores into the database
 	
