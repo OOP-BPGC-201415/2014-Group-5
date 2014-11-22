@@ -1,0 +1,27 @@
+This folder is for the final webapp.
+
+
+Structure:
+	-conf:						*Contains the properties file
+		=Catalina.properties	*Classpaths are configured in shared.loader. You'll want to edit your classpath accordingly as well ( To include <TOMCAT_ROOT>/nirmaanam/classes )
+	-nirmaanam: 				*General folder to keep our files together
+		-classes:				*Contains the classes of the model/controller ( Should be in your CLASSPATH )
+			-nirmaanam			*Package which contains model files
+				=*.class		*Model classes ( Model )
+			-servlets			*Package which contains controller files
+				=*.class		*Servlet classes. (Controllers)
+		-src:					*Source folder. Structure similar to classes folder
+			-nirmaanam			*Package which contains model files
+				=*.java			*Source for Model classes ( Model )
+			-servlets			*Package which contains controller files
+				=*.java			*Source for Servlet classes. (Controllers)
+			=comp.bat			*Windows script for easy compilation. Has the -d flag set to ../classes so you don't have to worry about it.
+		-lib:					*3rd party libraries. ( Should be in your CLASSPATH )
+	-webapps:					*Tomcats webapps folder
+		-ROOT:					*Default folder for tomcats webapps. Contains the JSP which serve as the views ( the virtualhost 'localhost' resolves here, Can be changed if you define a virtualhost in servers.xml )
+			-WEB-INF:			*Contains the web.xml 
+				=web.xml		*Contains servlet mapping
+			=*.jsp				*JSP files. The view for the system. Invoked by the servlets using getRequestDispatcher.include(...)
+		
+
+Refer the sample webapps directory in the root of the repo for a simplified example of the layout
