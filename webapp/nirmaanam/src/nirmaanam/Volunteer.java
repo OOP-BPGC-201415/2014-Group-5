@@ -67,18 +67,24 @@ public class Volunteer implements NirmaanEntity{
 		this.timetable=tt;
 	}	
 	
-	public void store() throws SQLException,IncompleteFieldException{
+	
+	
+	public ArrayList<Activity> getActivityList() throws SQLException{
+		ArrayList<Activity> aList = new ArrayList<Activity>();
 		Database db = Database.getDB();
-		db.checkInput(year,vertical.id).checkInput(name,bitsID);//.checkInput(vertical);
-		InsertQuery iq= db.insert("volunteer").addParam("name",name).addParam("bitsID",bitsID).addParam("year",year).addParam("vertical",vertical.id).execute();
-		this.id = iq.insertId();
-		//System.out.println("GOT " + this.id + " AS insertId");
+		SelectQuery sq = db.select("Activity").orderBy("time DESC").execute();
+		
+		ResultSet rs = sq.getResultSet();
+		while(rs.next()){
+			Volunteer head = new Volunteer();
+			head.setId(rs.getInt("head"));
+			Activity a= new Activity(rs.getString("name"), rs.getString("description"), rs.getInt("time"), head);
+			a.setId(rs.getInt("id"));
+			aList.add(a);
+		}
+		return aList;
 	}
 	
-	
-	public Volunteer load(int volunteerId) throws SQLException,EntityNotFoundException{
-		return this.load(volunteerId, null);
-	}
 	
 	public static ArrayList<Volunteer> loadAllVolunteers() throws SQLException,EntityNotFoundException{
 		ArrayList<Volunteer> vList = new ArrayList<Volunteer>();
@@ -92,6 +98,19 @@ public class Volunteer implements NirmaanEntity{
 			vList.add(v);
 		}
 		return vList;
+	}
+	
+	
+	public void store() throws SQLException,IncompleteFieldException{
+		Database db = Database.getDB();
+		db.checkInput(year,vertical.id).checkInput(name,bitsID);//.checkInput(vertical);
+		InsertQuery iq= db.insert("volunteer").addParam("name",name).addParam("bitsID",bitsID).addParam("year",year).addParam("vertical",vertical.id).execute();
+		this.id = iq.insertId();
+		//System.out.println("GOT " + this.id + " AS insertId");
+	}
+	
+	public Volunteer load(int volunteerId) throws SQLException,EntityNotFoundException{
+		return this.load(volunteerId, null);
 	}
 	
 	public Volunteer load(int volunteerId, Vertical vertical) throws SQLException,EntityNotFoundException{

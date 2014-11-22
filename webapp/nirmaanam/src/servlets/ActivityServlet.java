@@ -34,6 +34,10 @@ public class ActivityServlet extends BaseServlet<Activity> {
 				case "PostReport":
 					postReportHandler();
 					break;
+				
+				case "AddAssignee":
+					addAssigneeHandler();
+					break;
 				default:
 					defaultHandler();
 					break;
@@ -56,11 +60,21 @@ public class ActivityServlet extends BaseServlet<Activity> {
 		request.getRequestDispatcher("/ActivityJSP/PostReport.jsp").include(request, response);
 	}
 	
+	public void addAssigneeHandler() throws ServletException, IOException, SQLException,EntityNotFoundException{
+		loadEntity();
+		ArrayList<Volunteer> allVolunteers = Volunteer.loadAllVolunteers();
+		request.setAttribute("allVolunteers", allVolunteers);
+		request.getRequestDispatcher("/ActivityJSP/AddAssignee.jsp").include(request, response);
+	}
+	
 	void postHandler()  throws ServletException, IOException{
 		try{
 			switch(action){
 				case "PostReport":
 					postReport();
+					break;
+				case "AddAssignee":
+					addAssignee();
 					break;
 				default:
 					defaultHandler();
@@ -71,7 +85,6 @@ public class ActivityServlet extends BaseServlet<Activity> {
 		}catch(Exception e){
 			errorPage(e, "Unexpected behaviour", e.getMessage());
 		}
-		
 	}
 	
 	void postReport() throws SQLException,IncompleteFieldException, ServletException, IOException, EntityNotFoundException{
@@ -90,5 +103,47 @@ public class ActivityServlet extends BaseServlet<Activity> {
 			postReportHandler();
 		}
 	}
-
+	
+	void addAssignee() throws SQLException,IncompleteFieldException, ServletException, IOException, EntityNotFoundException{
+			ArrayList<Integer> assigneeIds = new ArrayList<Integer>();
+		try{
+			loadEntity();
+			
+			String[] idString= request.getParameterValues("assignees");
+			for( String id: idString){
+				assigneeIds.add(Integer.parseInt(id));
+			}
+			ArrayList<Volunteer> vList = new ArrayList<Volunteer>();
+			ArrayList<Integer> failed =new ArrayList<Integer>();
+			for(int aid: assigneeIds){
+				try{
+					vList.add(new Volunteer().load(aid));
+				}catch(Exception e){
+					failed.add(aid);
+				}
+			}
+			for(Volunteer v: vList){
+				try{
+					entity.addAssignee(v);
+				}catch(Exception e){
+					
+					failed.add(v.getId());
+				}
+			}
+			if( failed.size()>0 ){
+				String failedList = "";
+				for(int f: failed){
+					failedList+= "<a href='/Volunteer/'"+f+"'>"+f+"</a>, ";
+				}
+				setError(new Exception("Some of the assignees could not be added"), "Some of the assignees could not be added",failedList);
+			}
+			else{
+				setError(new Exception("Success: All assignees were added"), "Success!","All assignees were added");
+			}
+		}catch(Exception e){
+			setError(e);
+		}finally{
+			addAssigneeHandler();
+		}
+	}
 }

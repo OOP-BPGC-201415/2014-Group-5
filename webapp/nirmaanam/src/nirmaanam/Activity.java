@@ -13,6 +13,7 @@ public class Activity implements NirmaanEntity{
 			report;
 	Volunteer head;
 	Event event;
+	int time;
 	//Situational
 	ArrayList<Volunteer> assignees;
 	//Constants
@@ -28,6 +29,15 @@ public class Activity implements NirmaanEntity{
 	public Activity(String name, String description, Volunteer head)
 	{
 		this.name=name;
+		this.time = 0;
+		this.description=description;
+		this.head=head;
+	}
+	
+
+	public Activity(String name, String description, int time, Volunteer head){
+		this.name=name;
+		this.time= time;
 		this.description=description;
 		this.head=head;
 	}
@@ -39,6 +49,14 @@ public class Activity implements NirmaanEntity{
 	public void setId(int id)
 	{
 		this.id=id;
+	}
+	public void setTime(int time)
+	{
+		this.time=time;
+	}
+	
+	public int getTime(){
+		return this.time;
 	}
 	
 	public String getName()
@@ -86,12 +104,21 @@ public class Activity implements NirmaanEntity{
 	
 	public void addAssignee(Volunteer v) throws SQLException{
 		Database db = Database.getDB();
-		InsertQuery iq = db.insert("Activity_assignee").addParam("activity",this.id).addParam("volunteer",v.id).execute();
+		InsertQuery iq = db.insert("Activity_assignees").addParam("activity",this.id).addParam("volunteer",v.id).execute();
+	}
+	
+	public void addAssignees(Volunteer[] vList) throws SQLException{
+		Database db = Database.getDB();
+		InsertQuery iq = db.insert("Activity_assignees");
+		for(Volunteer v: vList){
+			iq.addParam("activity",this.id).addParam("volunteer",v.id);
+			iq.execute();
+		}
 	}
 	
 	public ArrayList<Volunteer> getAssignees() throws SQLException{//Does a database query		//Gets a result set		//Returns an array of Volunteers
 		Database db = Database.getDB();
-		SelectQuery sq = db.select("Activity_assignee").where("activity",this.id).execute();
+		SelectQuery sq = db.select("Activity_assignees").where("activity",this.id).execute();
 		ResultSet rs = sq.getResultSet();
 		assignees = new ArrayList<Volunteer>();
 		while(rs.next()){
@@ -103,14 +130,14 @@ public class Activity implements NirmaanEntity{
 	}
 	public boolean isAssignee(Volunteer v) throws SQLException {
 		Database db = Database.getDB();
-		SelectQuery sq = db.select("Activity_assignee").where("volunteer",v.id).execute();
+		SelectQuery sq = db.select("Activity_assignees").where("volunteer",v.id).execute();
 		ResultSet rs = sq.getResultSet();
 		return (rs.next())?true:false;
 	}
 	
 	public Availability getAvailability(Volunteer v) throws SQLException,EntityNotFoundException {
         Database db = Database.getDB();
-		SelectQuery sq = db.select("Activity_assignee").where("activity",this.id).where("volunteer",v.id).execute();
+		SelectQuery sq = db.select("Activity_assignees").where("activity",this.id).where("volunteer",v.id).execute();
 		ResultSet rs = sq.getResultSet();
 		if(rs.next()){
 			return Availability.values()[rs.getInt("availability")];
@@ -122,7 +149,7 @@ public class Activity implements NirmaanEntity{
 	}
 	public void confirmAvailability(Volunteer v,Availability av) throws SQLException {
 		Database db = Database.getDB();
-		UpdateQuery uq = db.update("Activity_assignee").addParam("availability",av.ordinal()).where("activity",this.id).where("volunteer",v.id).execute();
+		UpdateQuery uq = db.update("Activity_assignees").addParam("availability",av.ordinal()).where("activity",this.id).where("volunteer",v.id).execute();
 	}
 	
 	public Activity load(int activityId) throws SQLException,EntityNotFoundException{
@@ -134,6 +161,8 @@ public class Activity implements NirmaanEntity{
 			this.name = rs.getString("name");
 			this.description = rs.getString("description");
 			this.report = rs.getString("report");
+			this.time= rs.getInt("time");
+			
 			this.head = new Volunteer().load(rs.getInt("head"));
 			this.event = new Event().load(rs.getInt("event"));
 		}
@@ -146,7 +175,7 @@ public class Activity implements NirmaanEntity{
 	public void store() throws SQLException,IncompleteFieldException{
 		Database db = Database.getDB();
 		db.checkInput(name).checkInput(head.id);
-		InsertQuery iq= db.insert("Activity").addParam("name",name).addParam("description",description).addParam("head",head.id).addParam("event",event.id).execute();
+		InsertQuery iq= db.insert("Activity").addParam("name",name).addParam("description",description).addParam("head",head.id).addParam("event",event.id).addParam("time",(int)time).execute();
 		this.id = iq.insertId();
 	} //Stores into the database
 	

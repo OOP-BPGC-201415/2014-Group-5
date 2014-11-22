@@ -4,9 +4,10 @@ import java.util.*;
 import java.sql.*;
 
 class SelectQuery extends DatabaseQuery{
-	
+	String orderBy;
 	public SelectQuery(Database database, String table){
 		super(database,table);
+		orderBy ="";
 	}
 	String formSQL(){
 		String where = "";
@@ -17,9 +18,10 @@ class SelectQuery extends DatabaseQuery{
 			}
 			where =" WHERE "+ where.substring(0,where.length() - 4);
 		}
-		return "SELECT * FROM " + table + where;
-		
+		//System.out.println("SELECT * FROM " + table + where + orderBy);
+		return "SELECT * FROM " + table + where + orderBy;
 	}
+	
 	SelectQuery where(String field, int val) throws SQLException{
 		addParam(field,val);
 		return this;
@@ -56,5 +58,10 @@ class SelectQuery extends DatabaseQuery{
 	
 	SelectQuery addParam(String field,String val) throws SQLException{
 		return (SelectQuery)super.addParam(field,val);
+	}
+	
+	SelectQuery orderBy(String orderBy){
+		this.orderBy = " ORDER BY " + orderBy;
+		return this;
 	}
 }

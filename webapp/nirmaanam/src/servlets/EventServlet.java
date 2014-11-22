@@ -91,13 +91,14 @@ public class EventServlet extends BaseServlet<Event>{
 			loadEntity();	//We need to know
 			String name =(String)request.getParameter("name");
 			String description =(String)request.getParameter("description");
+			int timeStamp = Utility.StrToTimeStamp((String)request.getParameter("date"));
 			int headId =Integer.parseInt((String)request.getParameter("head"));
 		try{
 			loadEntity();
 			Volunteer head = new Volunteer().load(headId);
 			//Create a new Store in the database
 			
-			Activity newActivity= new Activity(name, description, head);
+			Activity newActivity= new Activity(name, description, timeStamp, head);
 			
 			entity.addActivity(newActivity);
 			

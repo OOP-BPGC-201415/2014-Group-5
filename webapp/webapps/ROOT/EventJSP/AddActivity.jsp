@@ -14,6 +14,7 @@
 	<form action="/Event/${event.getId()}/AddActivity" method="post">
 		<input name="name" placeholder="name"/>
 		<input name="description" placeholder="description"/>
+		<input name="date" placeholder="Date (dd/mm/yyyy)"/>
 		<select name="head">
 			<% ArrayList<Volunteer> allVolunteers = (ArrayList<Volunteer>) request.getAttribute("allVolunteers");
 			for(Volunteer v: allVolunteers){	%>

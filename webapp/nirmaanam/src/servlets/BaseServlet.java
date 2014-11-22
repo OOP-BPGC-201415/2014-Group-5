@@ -36,18 +36,22 @@ abstract class BaseServlet<EntityType extends NirmaanEntity> extends HttpServlet
 	}
 	
 	
-	public Volunteer loggedIn() throws EntityNotFoundException{	//Returns the volunteer who is logged in
+	public Volunteer loggedIn() throws SQLException,EntityNotFoundException{	//Returns the volunteer who is logged in
 		try{
 			if( loggedInVolunteer==null ){
-				int volunteerId = Integer.parseInt((String)request.getSession().getAttribute("volunteerId"));
+				int volunteerId = (int)request.getSession().getAttribute("volunteerId");
 				loggedInVolunteer = new Volunteer().load(volunteerId);
 			}
 		}catch(EntityNotFoundException enfe){
 			loggedInVolunteer = null;
+			try{
+				response.getWriter().println("EXCEPTIONNN!!");
+			}catch(Exception e){
+				//FUCKIT
+			}
 		}
-		finally{
-			return loggedInVolunteer;
-		}
+		
+		return loggedInVolunteer;
 	}
 	
 	public void freeUtils(){

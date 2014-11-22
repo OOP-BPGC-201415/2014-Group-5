@@ -6,40 +6,49 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 
 import java.util.*;
+import java.sql.SQLException;
 
-import nirmaanam.Vertical;
+import nirmaanam.*;
 //import nirmaanam.Database;
 
 // Extend HttpServlet class
-public class HomeServlet extends HttpServlet {
+public class HomeServlet extends BaseServlet<Volunteer> {
 
-  public void init() throws ServletException
-  {
-      // Do required initialization
+  Volunteer loadEntity()throws SQLException,EntityNotFoundException{
+	entity=null;
+	return entity;
   }
 
-  public void doGet(HttpServletRequest request,
-                    HttpServletResponse response)
-            throws ServletException, IOException
+	void dissectPath(){
+		action = "";
+		entityId = 0;
+	}
+  public void getHandler() throws ServletException, IOException
   {
       // Set response content type
       response.setContentType("text/html");
 
       // Actual logic goes here.
 	  try{
-		ArrayList<Vertical> verticalList = Vertical.getVerticalList();
-		request.setAttribute("verticalList", verticalList);
-		request.getRequestDispatcher("/Home.jsp").include(request, response);
-		response.getWriter().println("<!--- getPathInfo: " + request.getPathInfo() + "---->");
+		response.getWriter().println(loggedIn().getName());
+		if(loggedIn()==null){
+			ArrayList<Vertical> verticalList = Vertical.getVerticalList();
+			request.setAttribute("verticalList", verticalList);
+			request.getRequestDispatcher("/HomeJSP/NotLoggedIn.jsp").include(request, response);		
+		}
+		else{
+			ArrayList<Activity> activityList= loggedInVolunteer.getActivityList();
+			request.setAttribute("activityList", activityList);
+			request.getRequestDispatcher("/HomeJSP/IsLoggedIn.jsp").include(request, response);		
+		}
 	}catch(Exception e){
 		response.getWriter().println("Exception: "+e);
 		e.printStackTrace(response.getWriter());
 	}
 	  
   }
+	public void postHandler() throws ServletException, IOException{
+		getHandler();
+	}
   
-  public void destroy()
-  {
-      // do nothing.
-  }
 }
